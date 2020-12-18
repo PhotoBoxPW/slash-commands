@@ -5,7 +5,7 @@ module.exports = class GoatCommand extends SlashCommand {
   constructor(creator) {
     super(creator, {
       name: 'goat',
-      description: 'Get a random goat.'
+      description: 'Get a random goat. 🐐'
     });
   }
 

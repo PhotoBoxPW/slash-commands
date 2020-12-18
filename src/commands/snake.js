@@ -5,7 +5,7 @@ module.exports = class SnakeCommand extends SlashCommand {
   constructor(creator) {
     super(creator, {
       name: 'snake',
-      description: 'Get a random snake.'
+      description: 'Get a random snake. 🐍'
     });
   }
 
