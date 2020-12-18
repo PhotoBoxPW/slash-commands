@@ -1,6 +1,6 @@
 const { SlashCommand } = require('slash-create');
 
-module.exports = class InviteCommand extends SlashCommand {
+module.exports = class Invite extends SlashCommand {
   constructor(creator) {
     super(creator, {
       name: 'invite',

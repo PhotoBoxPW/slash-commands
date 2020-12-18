@@ -1,6 +1,6 @@
 const { SlashCommand, CommandOptionType } = require('slash-create');
 
-module.exports = class HTTPCatCommand extends SlashCommand {
+module.exports = class HTTPCat extends SlashCommand {
   constructor(creator) {
     super(creator, {
       name: 'httpcat',

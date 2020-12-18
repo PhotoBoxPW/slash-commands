@@ -1,7 +1,7 @@
 const { SlashCommand } = require('slash-create');
 const fetch = require('node-fetch');
 
-module.exports = class IOTDCommand extends SlashCommand {
+module.exports = class IOTD extends SlashCommand {
   constructor(creator) {
     super(creator, {
       name: 'imageoftheday',

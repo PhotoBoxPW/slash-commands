@@ -1,7 +1,7 @@
 const { SlashCommand, CommandOptionType } = require('slash-create');
 const fetch = require('node-fetch');
 
-module.exports = class WeebShCommand extends SlashCommand {
+module.exports = class WeebSh extends SlashCommand {
   constructor(creator) {
     super(creator, {
       name: 'weebsh',

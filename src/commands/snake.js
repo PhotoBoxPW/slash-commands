@@ -1,7 +1,7 @@
 const { SlashCommand } = require('slash-create');
 const { randint } = require('../util');
 
-module.exports = class SnakeCommand extends SlashCommand {
+module.exports = class Snake extends SlashCommand {
   constructor(creator) {
     super(creator, {
       name: 'snake',

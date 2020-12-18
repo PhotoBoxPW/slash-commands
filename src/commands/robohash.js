@@ -1,6 +1,6 @@
 const { SlashCommand, CommandOptionType } = require('slash-create');
 
-module.exports = class RobohashCommand extends SlashCommand {
+module.exports = class Robohash extends SlashCommand {
   constructor(creator) {
     super(creator, {
       name: 'robohash',
