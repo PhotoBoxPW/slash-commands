@@ -5,7 +5,7 @@ module.exports = class Octocat extends APICommand {
     super(creator, {
       name: 'octocat',
       description: 'Get a random GitHub octocat.',
-      url: 'https://hi.snaz.in/api/v1/blobs/octodex.json',
+      url: 'https://hi.snaz.in/api/v1/octodex/random.json',
       credit: 'hi.snaz.in & octodex.github.com'
     });
   }
