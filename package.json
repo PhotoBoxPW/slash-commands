@@ -1,0 +1,21 @@
+{
+  "name": "slash-create-template",
+  "version": "1.0.0",
+  "description": "A template for slash-create",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "dependencies": {
+    "cat-loggr": "^1.1.0",
+    "dotenv": "^8.2.0",
+    "fastify": "^3.9.2",
+    "slash-create": "^1.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.15.0",
+    "eslint-config-prettier": "^7.0.0",
+    "eslint-plugin-prettier": "^3.3.0",
+    "prettier": "^2.2.1"
+  }
+}
