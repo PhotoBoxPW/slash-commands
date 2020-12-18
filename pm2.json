@@ -1,7 +1,7 @@
 {
   "apps": [
     {
-      "name": "slash-commands",
+      "name": "PhotoBox Slash Commands",
 			"script": "node",
 			"args": "src/index.js"
     }
