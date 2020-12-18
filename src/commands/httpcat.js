@@ -19,6 +19,7 @@ module.exports = class HTTPCatCommand extends SlashCommand {
       includeSource: true,
       embeds: [{
         image: { url: `https://http.cat/${code}.jpg` },
+        footer: { text: 'Powered by http.cat' }
       }]
     };
   }

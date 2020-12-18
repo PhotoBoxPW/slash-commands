@@ -48,6 +48,7 @@ module.exports = class WeebShCommand extends SlashCommand {
       return {
         embeds: [{
           image: { url: image.url },
+          footer: { text: 'Powered by weeb.sh' }
         }]
       }
     }

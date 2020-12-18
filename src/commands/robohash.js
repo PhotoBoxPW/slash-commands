@@ -40,6 +40,7 @@ module.exports = class RobohashCommand extends SlashCommand {
       includeSource: true,
       embeds: [{
         image: { url: `https://robohash.org/${encodeURIComponent(value)}.png?set=${set}` },
+        footer: { text: 'Powered by robohash.org' }
       }]
     };
   }
