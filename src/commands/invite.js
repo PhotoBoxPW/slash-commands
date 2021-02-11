@@ -10,7 +10,7 @@ module.exports = class Invite extends SlashCommand {
 
   async run() {
     return {
-      content: 'Bot invite: https://invite.photobox.pw\nSlash Commands: https://invite.snaz.in/photobox/commands',
+      content: 'Bot Invite: https://invite.photobox.pw\nSlash Commands: https://invite.snaz.in/photobox/commands',
       ephemeral: true
     };
   }

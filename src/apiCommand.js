@@ -30,11 +30,11 @@ module.exports = class APICommand extends SlashCommand {
           body = { text: body };
         }
         return this.messageObject(this.getImage(body));
-      } else return `${ctx.member.mention}, The service gave us a ${res.status}! Try again later!`;
+      } else return `${ctx.user.mention}, The service gave us a ${res.status}! Try again later!`;
     } catch(e) {
       if (done(true)) return;
       done();
-      return `${ctx.member.mention}, Seems like the URL doesn\'t exist! Contact support!`;
+      return `${ctx.user.mention}, Seems like the URL doesn\'t exist! Contact support!`;
     }
   }
 
@@ -67,7 +67,7 @@ module.exports = class APICommand extends SlashCommand {
     setTimeout(() => {
       if (!done) {
         quit = true;
-        ctx.send(`${ctx.member.mention}, The request was dropped due to the call taking too long!`);
+        ctx.send(`${ctx.user.mention}, The request was dropped due to the call taking too long!`);
       }
     }, 10000);
   }

@@ -10,7 +10,7 @@ module.exports = class ServerInvite extends SlashCommand {
 
   async run() {
     return {
-      content: 'https://join.photobox.pw',
+      content: 'Server Invite: https://join.photobox.pw',
       ephemeral: true
     };
   }
