@@ -14,7 +14,6 @@ module.exports = class IOTD extends SlashCommand {
   }
 
   async run(ctx) {
-    await ctx.acknowledge(true);
     const res = (await fetch('https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=en-US').then(r => r.json()));
     const image = res.images[0];
     return {

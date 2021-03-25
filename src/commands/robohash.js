@@ -37,7 +37,6 @@ module.exports = class Robohash extends SlashCommand {
     const value = ctx.options.value || ctx.member.id;
     const set = ctx.options.set || 'set1';
     return {
-      includeSource: true,
       embeds: [{
         image: { url: `https://robohash.org/${encodeURIComponent(value)}.png?set=${set}` },
         footer: { text: 'Powered by robohash.org' }

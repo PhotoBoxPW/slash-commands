@@ -1,13 +1,13 @@
 const { SlashCommand } = require('slash-create');
-const fetch = require('node-fetch');
+const needle = require('needle');
 
 module.exports = class APICommand extends SlashCommand {
   constructor(creator, { name, description, url, emoji, credit, guildID, extra = {} }) {
     super(creator, {
       name,
       description: description || `Get a random ${name}.${emoji ? ` ${emoji}` : ''}`,
-      guildID,
-      deferEphemeral: true,
+      guildIDs: guildID,
+      deferEphemeral: false,
       ...extra
     });
 
@@ -16,26 +16,24 @@ module.exports = class APICommand extends SlashCommand {
   }
 
   async run(ctx) {
-    await ctx.defer(true);
-    let done = null;
-    this.doTimer(ctx, d => (done = d));
     try {
-      const res = await fetch(this.url, { headers: this.headers });
-      if (done(true)) return;
-      else done();
-      if (res.status >= 200 && res.status < 300) {
-        let body = await res.text();
-        try {
-          body = JSON.parse(body);
-        } catch (e) {
-          body = { text: body };
-        }
-        return this.messageObject(this.getImage(body));
-      } else return `${ctx.user.mention}, The service gave us a ${res.status}! Try again later!`;
+      const res = await needle('get', this.url, {
+        headers: this.headers,
+        open_timeout: 2000,
+        response_timeout: 1000,
+        read_timeout: 1000
+      });
+      if (res.statusCode >= 200 && res.statusCode < 300) {
+        return this.messageObject(this.getImage(res.body));
+      } else return {
+        content: `The service gave us a ${res.status}! Try again later!`,
+        ephemeral: true
+      };
     } catch(e) {
-      if (done(true)) return;
-      done();
-      return `${ctx.user.mention}, Seems like the URL doesn\'t exist! Contact support!`;
+      return {
+        content: 'An error occurred with the API!',
+        ephemeral: true
+      };
     }
   }
 
@@ -56,20 +54,5 @@ module.exports = class APICommand extends SlashCommand {
 
   getImage(res) {
     return res.url || res.file || res.image || res.link || res.text || res[0]
-  }
-
-  doTimer(ctx, func) {
-    let done = false;
-    let quit = false;
-    func(d => {
-      if (d) return quit;
-      done = true;
-    });
-    setTimeout(() => {
-      if (!done) {
-        quit = true;
-        ctx.send(`${ctx.user.mention}, The request was dropped due to the call taking too long!`);
-      }
-    }, 10000);
   }
 };
