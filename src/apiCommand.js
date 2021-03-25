@@ -7,6 +7,7 @@ module.exports = class APICommand extends SlashCommand {
       name,
       description: description || `Get a random ${name}.${emoji ? ` ${emoji}` : ''}`,
       guildID,
+      deferEphemeral: true,
       ...extra
     });
 
@@ -15,7 +16,7 @@ module.exports = class APICommand extends SlashCommand {
   }
 
   async run(ctx) {
-    await ctx.acknowledge(true);
+    await ctx.defer(true);
     let done = null;
     this.doTimer(ctx, d => (done = d));
     try {

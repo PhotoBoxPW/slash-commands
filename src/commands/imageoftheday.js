@@ -18,7 +18,7 @@ module.exports = class IOTD extends SlashCommand {
     const res = (await fetch('https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=en-US').then(r => r.json()));
     const image = res.images[0];
     return {
-      includeSource: true,
+      ephemeral: true,
       embeds: [{
         title: image.copyright,
         url: image.copyrightlink,

@@ -6,7 +6,7 @@ module.exports = class EightBall extends APICommand {
     super(creator, {
       name: '8ball',
       description: 'Ask the mighty eight ball. 🎱',
-      url: 'https://nekos.life/api/v2/img/8ball',
+      url: 'https://hi.snaz.in/api/v1/eightball/random.json',
       extra: {
         options: [{
           type: CommandOptionType.STRING,

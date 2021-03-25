@@ -11,7 +11,7 @@
     "dotenv": "^8.2.0",
     "fastify": "^3.9.2",
     "node-fetch": "^2.6.1",
-    "slash-create": "https://github.com/Snazzah/slash-create"
+    "slash-create": "^3.0.0"
   },
   "devDependencies": {
     "eslint": "^7.15.0",

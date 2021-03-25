@@ -16,7 +16,6 @@ module.exports = class HTTPCat extends SlashCommand {
   async run(ctx) {
     const code = ctx.options.status_code || 404;
     return {
-      includeSource: true,
       embeds: [{
         image: { url: `https://http.cat/${code}.jpg` },
         footer: { text: 'Powered by http.cat' }
