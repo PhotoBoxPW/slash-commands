@@ -3,7 +3,7 @@
     {
       "name": "PhotoBox Slash Commands",
 			"script": "node",
-			"args": "src/index.js"
+			"args": "dist/index.js"
     }
   ]
 }
