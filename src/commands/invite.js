@@ -4,13 +4,13 @@ module.exports = class Invite extends SlashCommand {
   constructor(creator) {
     super(creator, {
       name: 'invite',
-      description: 'Gets the bot invite link and the commands link.'
+      description: 'Gets the invite links for PhotoBox.'
     });
   }
 
   async run() {
     return {
-      content: 'Bot Invite: https://invite.photobox.pw\nSlash Commands: https://invite.snaz.in/photobox/commands',
+      content: 'Invite: https://invite.photobox.pw\nOnly Slash Commands: https://invite.snaz.in/photobox/commands',
       ephemeral: true
     };
   }
