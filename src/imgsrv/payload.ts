@@ -1,4 +1,4 @@
-export type ImgSrvPayload = AnyTextPayload | AnyImagePayload;
+export type ImgSrvPayload = AnyTextPayload | AnyImagePayload | ColorPayload;
 
 // #region Text Payloads
 export type AnyTextPayload =
@@ -135,6 +135,6 @@ export interface HeartPayload extends DoubleImagePayload {
 /** Payload for `color` endpoint. */
 export interface ColorPayload {
   /** The color you want to use. */
-  color?: string;
+  color: string;
 }
 // #endregion

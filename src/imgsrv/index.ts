@@ -6,7 +6,8 @@ export enum ErrorCodes {
   SERVER_ERROR = -1,
   BAD_REQUEST = 0,
   MISSING_PARAMETER = 1,
-  INVALID_IMAGE = 2
+  INVALID_IMAGE = 2,
+  INVALID_COLOR = 3
 }
 
 export interface ImageCacheObject {
@@ -41,6 +42,9 @@ export const DEFAULT_MESSAGES: {
   },
   [ErrorCodes.INVALID_IMAGE]: (response) => {
     return 'An error happened when using an image: ' + response.error;
+  },
+  [ErrorCodes.INVALID_COLOR]: (response) => {
+    return response.error;
   }
 };
 
