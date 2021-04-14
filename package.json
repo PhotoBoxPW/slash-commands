@@ -2,7 +2,7 @@
   "name": "photobox-slash-commands",
   "version": "1.0.0",
   "description": "Slash commands for PhotoBox",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "scripts": {
     "start": "NODE_ENV=production cd dist && node index.js",
     "build": "tsc",
