@@ -112,6 +112,12 @@ export interface MirrorPayload extends GifImagePayload {
   last_half?: boolean;
 }
 
+/** Payload for `blurple` endpoint. */
+export interface BlurplePayload extends GifImagePayload {
+  /** Whether to use the new blurple color when filtering. */
+  new_color?: boolean;
+}
+
 /** Payload for `wanted` endpoint. */
 export interface WantedPayload extends ImagePayload {
   /** The user's username.. */
