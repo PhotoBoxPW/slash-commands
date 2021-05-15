@@ -30,12 +30,24 @@ creator
   .on('commandRegister', (command) => logger.info(`Registered command ${command.commandName}`))
   .on('commandError', (command, error) => logger.error(`Command ${command.commandName}:`, error));
 
-start().then(() =>
+start().then(() => {
   creator
     .withServer(new FastifyServer())
     .registerCommandsIn(path.join(__dirname, 'commands'))
     .syncCommands()
-    .startServer()
-);
+    .startServer();
+
+  if (process.env.TEST_GUILD) {
+    const alreadySynced = !!creator.commands.find(
+      (command) => command.guildIDs && command.guildIDs.includes(process.env.TEST_GUILD)
+    );
+
+    if (!alreadySynced)
+      creator
+        .syncCommandsIn(process.env.TEST_GUILD)
+        .then(() => logger.info(`Synced test guild!`))
+        .catch((e) => logger.error(`Failed to sync test guild!`, e));
+  }
+});
 
 // This should serve in localhost:8020/interactions
