@@ -132,12 +132,20 @@ export default class Random extends SlashCommand {
       options: Object.keys(Random.subcommandMap).map((subcommandName) => {
         const opts = Random.subcommandMap[subcommandName];
 
-        return {
+        const subcommand = {
           type: CommandOptionType.SUB_COMMAND,
           name: subcommandName,
           description: opts.description || `Get a random ${subcommandName}.${opts.emoji ? ` ${opts.emoji}` : ''}`,
           options: opts.options || []
         };
+
+        subcommand.options.push({
+          type: CommandOptionType.BOOLEAN,
+          name: 'hidden',
+          description: 'Hide this message to others?'
+        });
+
+        return subcommand;
       })
     });
   }
@@ -148,6 +156,10 @@ export default class Random extends SlashCommand {
         content: "Couldn't find that subcommand!",
         ephemeral: true
       };
+
+    // @ts-ignore
+    const ephemeral = ctx.options[ctx.subcommands[0]].hidden || false;
+    if (ephemeral) await ctx.defer(true);
 
     const subcommand = Random.subcommandMap[ctx.subcommands[0]];
     return this.runImage(ctx, subcommand);
