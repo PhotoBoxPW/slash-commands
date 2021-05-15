@@ -9,9 +9,17 @@ import {
 } from 'slash-create';
 import { oneLine } from 'common-tags';
 import prettyMilliseconds from 'pretty-ms';
-import { DoubleImagePayload, ImgSrvPayload, TextPayload, UserPayload, WantedPayload } from '../imgsrv/payload';
+import {
+  DoubleImagePayload,
+  ImagePayload,
+  ImgSrvPayload,
+  TextPayload,
+  UserPayload,
+  WantedPayload
+} from '../imgsrv/payload';
 import { logger } from '../logger';
 import { generate } from '../imgsrv';
+import { find } from '../media';
 
 export abstract class GenerationCommand extends SlashCommand {
   endpoint = '';
@@ -38,14 +46,15 @@ export abstract class GenerationCommand extends SlashCommand {
       const before = Date.now();
       const image = await generate(this.endpoint, payload);
       const after = Date.now();
+      const diff = after - before;
       logger.info(oneLine`
         '${this.endpoint}' for
         ${ctx.user.username}#${ctx.user.discriminator} (${ctx.user.id})
-        took ${prettyMilliseconds(after - before)}
+        took ${prettyMilliseconds(diff)}
       `);
       return {
         file: { file: image.buffer, name: `${this.endpoint}.${image.extension}` },
-        content: `Took ${prettyMilliseconds(after - before)} to render.`
+        content: diff > 100 ? `Took ${prettyMilliseconds(after - before)} to render.` : ''
       };
     } catch (err) {
       logger.error(
@@ -64,11 +73,44 @@ export abstract class GenerationCommand extends SlashCommand {
   }
 }
 
-export abstract class TextCommand extends GenerationCommand {
-  constructor(creator: SlashCreator, name: string, description: string) {
+export abstract class ImageCommand extends GenerationCommand {
+  constructor(creator: SlashCreator, name: string, description: string, guildIDs?: string | string[]) {
     super(creator, {
       name,
       description,
+      guildIDs,
+      options: [
+        {
+          name: 'media',
+          type: CommandOptionType.STRING,
+          description: 'Can be a URL or an emoji. Use the "avatar" option to get an avatar.'
+        },
+        {
+          name: 'avatar',
+          type: CommandOptionType.USER,
+          description: 'Use the avatar of the given user, defaults to your avatar.'
+        }
+      ]
+    });
+  }
+
+  async run(ctx: CommandContext) {
+    const user = ctx.users.first() || ctx.user;
+    const media = ctx.options.media as string;
+
+    const result = await find(user, media);
+    const payload: ImagePayload = { image: result.url };
+
+    return this.generate(ctx, payload);
+  }
+}
+
+export abstract class TextCommand extends GenerationCommand {
+  constructor(creator: SlashCreator, name: string, description: string, guildIDs?: string | string[]) {
+    super(creator, {
+      name,
+      description,
+      guildIDs,
       options: [
         {
           name: 'text',
