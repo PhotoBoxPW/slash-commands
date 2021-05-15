@@ -2,8 +2,14 @@
   "apps": [
     {
       "name": "PhotoBox Slash Commands",
-			"script": "node",
-			"args": "dist/index.js"
+      "script": "node",
+      "args": "dist/index.js",
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "env_production": {
+        "NODE_ENV": "production"
+      }
     }
   ]
 }
