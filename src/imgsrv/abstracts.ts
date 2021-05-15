@@ -54,7 +54,7 @@ export abstract class GenerationCommand extends SlashCommand {
       `);
       return {
         file: { file: image.buffer, name: `${this.endpoint}.${image.extension}` },
-        content: diff > 100 ? `Took ${prettyMilliseconds(after - before)} to render.` : ''
+        content: `Took ${prettyMilliseconds(after - before)} to render.`
       };
     } catch (err) {
       logger.error(
