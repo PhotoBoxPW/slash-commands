@@ -1,5 +1,11 @@
-import { ApplicationCommandOption, CommandContext, CommandOptionType, SlashCommand, SlashCreator } from 'slash-create';
-import { MessageOptions } from 'slash-create/lib/context';
+import {
+  ApplicationCommandOption,
+  MessageOptions,
+  CommandContext,
+  CommandOptionType,
+  SlashCommand,
+  SlashCreator
+} from 'slash-create';
 import needle from 'needle';
 
 interface SubcommandOptions {
@@ -145,7 +151,7 @@ export default class Random extends SlashCommand {
           description: 'Hide this message to others?'
         });
 
-        return subcommand;
+        return subcommand as ApplicationCommandOption;
       })
     });
   }

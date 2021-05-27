@@ -1,4 +1,12 @@
-import { SlashCommand, CommandOptionType, SlashCreator, CommandContext, ImageFormat } from 'slash-create';
+import {
+  SlashCommand,
+  CommandOptionType,
+  SlashCreator,
+  CommandContext,
+  ComponentType,
+  ButtonStyle,
+  ImageFormat
+} from 'slash-create';
 
 export default class Avatar extends SlashCommand {
   constructor(creator: SlashCreator) {
@@ -31,6 +39,19 @@ export default class Avatar extends SlashCommand {
           title: `🖼️ ${user.username}'s Avatar`,
           description: '🔗 ' + parts.join(' '),
           image: { url: user.dynamicAvatarURL() }
+        }
+      ],
+      components: [
+        {
+          type: ComponentType.ACTION_ROW,
+          components: [
+            {
+              type: ComponentType.BUTTON,
+              style: ButtonStyle.LINK,
+              label: 'Open Avatar URL',
+              url: user.dynamicAvatarURL()
+            }
+          ]
         }
       ]
     };

@@ -1,4 +1,11 @@
-import { SlashCommand, CommandOptionType, SlashCreator, CommandContext } from 'slash-create';
+import {
+  SlashCommand,
+  CommandOptionType,
+  SlashCreator,
+  CommandContext,
+  ComponentType,
+  ButtonStyle
+} from 'slash-create';
 import { stripIndents } from 'common-tags';
 import emojilib from 'emojilib';
 
@@ -47,6 +54,19 @@ export default class Emoji extends SlashCommand {
             ${emoji.names ? `🏷️ ${emoji.names.map((e) => `\`${e}\``).join(', ')}` : ''}
           `,
           thumbnail: { url: emoji.url }
+        }
+      ],
+      components: [
+        {
+          type: ComponentType.ACTION_ROW,
+          components: [
+            {
+              type: ComponentType.BUTTON,
+              style: ButtonStyle.LINK,
+              label: 'Open Emoji URL',
+              url: emoji.url
+            }
+          ]
         }
       ]
     };
