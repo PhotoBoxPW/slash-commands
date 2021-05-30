@@ -2,6 +2,7 @@ import { SlashCreator, FastifyServer } from 'slash-create';
 import path from 'path';
 import dotenv from 'dotenv';
 import { loadExtractors } from './media';
+import { cacheCommands } from './util';
 
 let dotenvPath = path.join(process.cwd(), '.env');
 if (path.parse(process.cwd()).name === 'dist') dotenvPath = path.join(process.cwd(), '..', '.env');
@@ -34,11 +35,12 @@ creator
 start()
   .then(() => loadExtractors())
   .then(() => {
-    creator
-      .withServer(new FastifyServer())
-      .registerCommandsIn(path.join(__dirname, 'commands'))
-      .syncCommands()
-      .startServer();
+    creator.withServer(new FastifyServer()).registerCommandsIn(path.join(__dirname, 'commands'));
+
+    if (cacheCommands(creator)) {
+      logger.info('Cache updated, syncing...');
+      creator.syncCommands();
+    }
 
     if (process.env.TEST_GUILD) {
       const alreadySynced = !!creator.commands.find(
@@ -51,6 +53,8 @@ start()
           .then(() => logger.info(`Synced test guild!`))
           .catch((e) => logger.error(`Failed to sync test guild!`, e));
     }
+
+    creator.startServer();
   });
 
 // This should serve in localhost:8020/interactions

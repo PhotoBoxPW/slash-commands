@@ -1,5 +1,6 @@
 import * as path from 'path';
 import * as fs from 'fs';
+import { SlashCreator } from 'slash-create';
 
 /**
  * Iterates through a folder and calls back on every .js found.
@@ -37,4 +38,27 @@ export async function iterateFolder(
  */
 export function randint(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+/**
+ * Caches commands to a file.
+ * @param creator The creator to cache commands from
+ * @returns Whether the cache has updated
+ */
+export function cacheCommands(creator: SlashCreator) {
+  let cache = '';
+
+  if (fs.existsSync('../.command_cache.json')) cache = fs.readFileSync('../.command_cache.json', { encoding: 'utf-8' });
+
+  const currentCache = JSON.stringify(
+    creator.commands.map((cmd) => ({
+      ...cmd.commandJSON,
+      guildIDs: cmd.guildIDs
+    }))
+  );
+
+  if (cache === currentCache) return false;
+
+  fs.writeFileSync('../.command_cache.json', currentCache);
+  return true;
 }
