@@ -20,7 +20,7 @@ export default class Invite extends SlashCommand {
               type: ComponentType.BUTTON,
               style: ButtonStyle.LINK,
               label: 'Invite',
-              url: 'https://invite.photobox.pw',
+              url: 'https://discord.com/oauth2/authorize?client_id=284134563381248000&permissions=0&scope=bot%20applications.commands',
               emoji: {
                 id: '847292938018357298'
               }
@@ -29,7 +29,7 @@ export default class Invite extends SlashCommand {
               type: ComponentType.BUTTON,
               style: ButtonStyle.LINK,
               label: 'Slash Commands Only',
-              url: 'https://invite.snaz.in/photobox/commands',
+              url: 'https://discord.com/oauth2/authorize?client_id=284134563381248000&scope=applications.commands',
               emoji: {
                 id: '785919558376488990'
               }
