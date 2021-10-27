@@ -22,7 +22,7 @@
     "fastify": "^3.9.2",
     "needle": "^2.6.0",
     "pretty-ms": "^7.0.1",
-    "slash-create": "^3.5.0"
+    "slash-create": "^4.3.0"
   },
   "devDependencies": {
     "@types/common-tags": "^1.8.0",
