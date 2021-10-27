@@ -25,24 +25,23 @@ export default class Ship extends GenerationCommand {
           type: CommandOptionType.STRING,
           description: 'The heart (or emoji) in between the users.',
           choices: [
-            // TODO: Use emojis in names when discord fixes issue #2537
-            { name: 'Red', value: 'red' }, // ❤
-            { name: 'Orange', value: 'orange' }, // 🧡
-            { name: 'Yellow', value: 'yellow' }, // 💛
-            { name: 'Green', value: 'green' }, // 💚
-            { name: 'Blue', value: 'blue' }, // 💙
-            { name: 'Purple', value: 'purple' }, // 💜
-            { name: 'White', value: 'white' }, // 🤍
-            { name: 'Brown', value: 'brown' }, // 🤎
-            { name: 'Black', value: 'black' }, // 🖤
-            { name: 'Broken Heart', value: 'broken' }, // 💔
-            { name: 'Heart With Arrow (Cupid)', value: 'arrow' }, // 💘
-            { name: 'Beating Heart', value: 'beating' }, // 💓
-            { name: 'Growing Heart', value: 'growing' }, // 💗
-            { name: 'Ribboned', value: 'ribbon' }, // 💝
-            { name: 'Revolving Hearts', value: 'revolving' }, // 💞
-            { name: 'Two Hearts', value: 'two' }, // 💕
-            { name: 'Heart Decoration', value: 'decoration' } // 💟
+            { name: '❤ Red', value: 'red' },
+            { name: '🧡 Orange', value: 'orange' },
+            { name: '💛 Yellow', value: 'yellow' },
+            { name: '💚 Green', value: 'green' },
+            { name: '💙 Blue', value: 'blue' },
+            { name: '💜 Purple', value: 'purple' },
+            { name: '🤍 White', value: 'white' },
+            { name: '🤎 Brown', value: 'brown' },
+            { name: '🖤 Black', value: 'black' },
+            { name: '💔 Broken Heart', value: 'broken' },
+            { name: '💘 Heart With Arrow (Cupid)', value: 'arrow' },
+            { name: '💓 Beating Heart', value: 'beating' },
+            { name: '💗 Growing Heart', value: 'growing' },
+            { name: '💝 Ribboned', value: 'ribbon' },
+            { name: '💞 Revolving Hearts', value: 'revolving' },
+            { name: '💕 Two Hearts', value: 'two' },
+            { name: '💟 Heart Decoration', value: 'decoration' }
           ]
         }
       ]
