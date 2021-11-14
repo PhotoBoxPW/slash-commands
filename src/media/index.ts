@@ -2,7 +2,7 @@ import emojilib from 'emojilib';
 import path from 'path';
 import Extractor from './extractor';
 import { iterateFolder } from '../util';
-import { User } from 'slash-create';
+import { User, CommandContext, MessageData } from 'slash-create';
 
 export const CUSTOM_EMOJI_REGEX = /<(a?):([0-9a-zA-Z-_]+):(\d+)>/;
 export const URL_REGEX = /https?:\/\/[^\s<|]+[^<.,:;"')\]\s>|*_~`]/i;
@@ -67,12 +67,65 @@ export function clearCache() {
   for (const extractor of extractors) extractor.clearCache();
 }
 
-export async function find(user: User, media?: string): Promise<FindMediaResult> {
+export async function fetchMessages(ctx: CommandContext): Promise<MessageData[]> {
+  try {
+    return ctx.creator.requestHandler.request(
+      'get',
+      `/channels/${ctx.channelID}/messages?limit=${process.env.LOOKBACK_LIMIT || 25}`
+    );
+  } catch (e) {
+    return null;
+  }
+}
+
+export async function findFromMessage(message: MessageData): Promise<FindMediaResult | null> {
+  // Attachment
+  if (message.attachments.length)
+    return {
+      url: message.attachments[0].url,
+      from: 'attachment',
+      past: true
+    };
+
+  // Embed
+  if (message.embeds.length) {
+    const targetURL = message.embeds
+      .filter((embed) => (embed.image && embed.image.url) || (embed.thumbnail && embed.thumbnail.url))
+      .map((embed) => (embed.image ? embed.image.url : embed.thumbnail!.url))[0];
+    if (targetURL)
+      return {
+        url: targetURL,
+        from: 'embed',
+        past: true
+      };
+  }
+
+  // URL detection
+  if (URL_REGEX.test(message.content)) {
+    const targetURL = message.content.match(URL_REGEX)![1];
+    const convertedURL = targetURL ? (await parseURL(targetURL)) || targetURL : targetURL;
+    if (targetURL)
+      return {
+        url: convertedURL,
+        from: 'url',
+        past: true
+      };
+  }
+
+  return null;
+}
+
+export async function find(
+  user: User,
+  media?: string,
+  ctx?: CommandContext,
+  preferUser = false
+): Promise<FindMediaResult> {
   if (media) {
     // URL detection
     if (URL_REGEX.test(media)) {
       const targetURL = media.match(URL_REGEX)![1];
-      const convertedURL = targetURL ? (await this.parseURL(targetURL)) || targetURL : targetURL;
+      const convertedURL = targetURL ? (await parseURL(targetURL)) || targetURL : targetURL;
       if (targetURL)
         return {
           url: convertedURL,
@@ -88,6 +141,7 @@ export async function find(user: User, media?: string): Promise<FindMediaResult>
         from: 'customEmoji'
       };
     }
+
     // Emoji (Longer length emojis get priority)
     const emojiMatches = Object.keys(emojilib)
       .filter((emoji) => media.startsWith(emoji))
@@ -98,6 +152,17 @@ export async function find(user: User, media?: string): Promise<FindMediaResult>
         url: `https://twemoji.maxcdn.com/v/latest/svg/${this.toCodePoint(emojiMatches[0])}.svg`,
         from: 'emoji'
       };
+  }
+
+  if (ctx && !preferUser) {
+    const messages = await fetchMessages(ctx);
+    if (messages) {
+      for (const message of messages) {
+        // TODO filter other message types
+        const messageResult = await findFromMessage(message);
+        if (messageResult) return messageResult;
+      }
+    }
   }
 
   // User's Avatar

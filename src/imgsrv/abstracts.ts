@@ -34,32 +34,32 @@ export abstract class GenerationCommand extends SlashCommand {
     });
   }
 
-  async generate(ctx: CommandContext, payload: ImgSrvPayload) {
-    if (!this.endpoint) return 'No endpoint was defined for this command.';
+  async generate(ctx: CommandContext, payload: ImgSrvPayload, endpoint = this.endpoint) {
+    if (!endpoint) return 'No endpoint was defined for this command.';
 
     await ctx.defer(false);
     try {
       logger.info(oneLine`
-        Generating '${this.endpoint}' for
+        Generating '${endpoint}' for
         ${ctx.user.username}#${ctx.user.discriminator} (${ctx.user.id})
       `);
       const before = Date.now();
-      const image = await generate(this.endpoint, payload);
+      const image = await generate(endpoint, payload);
       const after = Date.now();
       const diff = after - before;
       logger.info(oneLine`
-        '${this.endpoint}' for
+        '${endpoint}' for
         ${ctx.user.username}#${ctx.user.discriminator} (${ctx.user.id})
         took ${prettyMilliseconds(diff)}
       `);
       return {
-        file: { file: image.buffer, name: `${this.endpoint}.${image.extension}` },
+        file: { file: image.buffer, name: `${endpoint}.${image.extension}` },
         content: `Took ${prettyMilliseconds(after - before)} to render.`
       };
     } catch (err) {
       logger.error(
         oneLine`
-          '${this.endpoint}' for
+          '${endpoint}' for
           ${ctx.user.username}#${ctx.user.discriminator} (${ctx.user.id})
           errored
         `,
@@ -88,7 +88,7 @@ export abstract class ImageCommand extends GenerationCommand {
         {
           name: 'avatar',
           type: CommandOptionType.USER,
-          description: 'Use the avatar of the given user, defaults to your avatar.'
+          description: 'Use the avatar of the given user, defaults to the last posted image.'
         }
       ]
     });
@@ -98,7 +98,7 @@ export abstract class ImageCommand extends GenerationCommand {
     const user = ctx.users.first() || ctx.user;
     const media = ctx.options.media as string;
 
-    const result = await find(user, media);
+    const result = await find(user, media, ctx, ctx.users.size === 1);
     const payload: ImagePayload = { image: result.url };
 
     return this.generate(ctx, payload);

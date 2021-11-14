@@ -4,8 +4,8 @@
   "description": "Slash commands for PhotoBox",
   "main": "dist/index.js",
   "scripts": {
-    "start": "npx shx NODE_ENV=production cd dist && node index.js",
-    "build": "npx shx rm -rf dist && tsc",
+    "start": "NODE_ENV=production cd dist && node index.js",
+    "build": "npx rimraf dist && tsc",
     "dev": "devScript",
     "dev:ts": "cd src && ts-node index.ts",
     "lint": "npx eslint --ext .ts ./src",
