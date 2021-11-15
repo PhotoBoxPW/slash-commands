@@ -20,7 +20,8 @@ export default class Invite extends SlashCommand {
               type: ComponentType.BUTTON,
               style: ButtonStyle.LINK,
               label: 'Invite',
-              url: 'https://discord.com/oauth2/authorize?client_id=284134563381248000&permissions=0&scope=bot%20applications.commands',
+              url:
+                'https://discord.com/oauth2/authorize?client_id=284134563381248000&permissions=0&scope=bot%20applications.commands',
               emoji: {
                 id: '847292938018357298'
               }

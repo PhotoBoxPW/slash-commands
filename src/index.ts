@@ -37,21 +37,18 @@ start()
   .then(() => {
     creator.withServer(new FastifyServer()).registerCommandsIn(path.join(__dirname, 'commands'));
 
-    if (cacheCommands(creator)) {
+    if (process.env.TEST_GUILD) {
+      logger.info(`Testing in guild ${process.env.TEST_GUILD}`);
+      // @ts-ignore
+      creator.commands.forEach((command) => (command.guildIDs = [process.env.TEST_GUILD]));
+
+      creator
+        .syncCommandsIn(process.env.TEST_GUILD)
+        .then(() => logger.info('Synced test guild!'))
+        .catch((e) => logger.error('Failed to sync test guild!', e));
+    } else if (cacheCommands(creator)) {
       logger.info('Cache updated, syncing...');
       creator.syncCommands();
-    }
-
-    if (process.env.TEST_GUILD) {
-      const alreadySynced = !!creator.commands.find(
-        (command) => command.guildIDs && command.guildIDs.includes(process.env.TEST_GUILD)
-      );
-
-      if (!alreadySynced)
-        creator
-          .syncCommandsIn(process.env.TEST_GUILD)
-          .then(() => logger.info(`Synced test guild!`))
-          .catch((e) => logger.error(`Failed to sync test guild!`, e));
     }
 
     creator.startServer();
