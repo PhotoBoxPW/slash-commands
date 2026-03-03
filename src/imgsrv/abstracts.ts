@@ -2,6 +2,7 @@ import {
   ApplicationCommandOption,
   CommandContext,
   CommandOptionType,
+  MessageOptions,
   SlashCommand,
   SlashCommandOptions,
   SlashCreator,
@@ -34,7 +35,7 @@ export abstract class GenerationCommand extends SlashCommand {
     });
   }
 
-  async generate(ctx: CommandContext, payload: ImgSrvPayload, endpoint = this.endpoint) {
+  async generate(ctx: CommandContext, payload: ImgSrvPayload, endpoint = this.endpoint): Promise<string | MessageOptions> {
     if (!endpoint) return 'No endpoint was defined for this command.';
 
     await ctx.defer(false);
@@ -53,7 +54,7 @@ export abstract class GenerationCommand extends SlashCommand {
         took ${prettyMilliseconds(diff)}
       `);
       return {
-        file: { file: image.buffer, name: `${endpoint}.${image.extension}` },
+        files: [{ file: image.buffer, name: `${endpoint}.${image.extension}` }],
         content: `Took ${prettyMilliseconds(after - before)} to render.`
       };
     } catch (err) {
