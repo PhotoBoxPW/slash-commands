@@ -51,7 +51,7 @@ export abstract class GenerationCommand extends SlashCommand {
       logger.info(oneLine`
         '${endpoint}' for
         ${ctx.user.username}#${ctx.user.discriminator} (${ctx.user.id})
-        took ${prettyMilliseconds(diff)}
+        took ${prettyMilliseconds(diff)} (${image.buffer.byteLength} bytes)
       `);
       return {
         attachments: [{ id: 0, name: `${endpoint}.${image.extension}` }],

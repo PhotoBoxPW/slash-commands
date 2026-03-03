@@ -48,17 +48,17 @@ export function randint(min: number, max: number) {
 export function cacheCommands(creator: SlashCreator) {
   let cache = '';
 
-  if (fs.existsSync('../.command_cache.json')) cache = fs.readFileSync('../.command_cache.json', { encoding: 'utf-8' });
+  if (fs.existsSync('.command_cache.json')) cache = fs.readFileSync('.command_cache.json', { encoding: 'utf-8' });
 
   const currentCache = JSON.stringify(
     creator.commands.map((cmd) => ({
-      ...cmd.commandJSON,
+      ...cmd.toCommandJSON(),
       guildIDs: cmd.guildIDs
     }))
   );
 
   if (cache === currentCache) return false;
 
-  fs.writeFileSync('../.command_cache.json', currentCache);
+  fs.writeFileSync('.command_cache.json', currentCache);
   return true;
 }
