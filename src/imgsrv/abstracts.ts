@@ -54,6 +54,7 @@ export abstract class GenerationCommand extends SlashCommand {
         took ${prettyMilliseconds(diff)}
       `);
       return {
+        attachments: [{ id: 0, name: `${endpoint}.${image.extension}` }],
         files: [{ file: image.buffer, name: `${endpoint}.${image.extension}` }],
         content: `Took ${prettyMilliseconds(after - before)} to render.`
       };
